@@ -29,6 +29,14 @@ async function run() {
       const result = await usersCollection.insertOne(user);
       res.send(result);
     });
+    app.get("/sendmail", async (req, res) => {
+      const user = req.body;
+      const query = {};
+      // TODO: make sure you do not enter duplicate user email
+      // only insert users if the user doesn't exist in the database
+      const result = await usersCollection.find(query);
+      res.send(result);
+    });
   } finally {
   }
 }
