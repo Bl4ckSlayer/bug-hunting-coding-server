@@ -5,23 +5,7 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:3000/", // use your actual domain name (or localhost), using * is not recommended
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Origin",
-      "X-Requested-With",
-      "Accept",
-      "x-client-key",
-      "x-client-token",
-      "x-client-secret",
-      "Authorization",
-    ],
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_Pass}@cluster0.2kj9s6r.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -41,14 +25,14 @@ async function run() {
       const result = await usersCollection.insertOne(user);
       res.send(result);
     });
-    app.get("/sendmail", async (req, res) => {
-      const user = req.body;
-      const query = {};
-      // TODO: make sure you do not enter duplicate user email
-      // only insert users if the user doesn't exist in the database
-      const result = await usersCollection.find(query);
-      res.send(result);
-    });
+    // app.get("/sendmail", async (req, res) => {
+    //   const user = req.body;
+    //   const query = {};
+    //   // TODO: make sure you do not enter duplicate user email
+    //   // only insert users if the user doesn't exist in the database
+    //   const result = await usersCollection.find(query);
+    //   res.send(result);
+    // });
   } finally {
   }
 }
